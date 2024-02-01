@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emp_Mgr_Dept data</title>
+</head>
+<body>
+    <center>
+        <h1>Employee_Manager_Depatrment Data</h1>
+        <table border="3px">
+            <tr>
+                <th>Ename</th>
+                <th>Empno</th>
+                <th>Esal</th>
+                <th>Ejob</th>
+                <th>Ehiredate</th>
+                <th>Ecomm</th>
+                <th>Manager name</th>
+                <th>Msal</th>
+                <th>Dept name</th>
+                <th>Deptloc</th>
+            </tr>
+            {% for eo in Emdobj %}
+                <tr>
+                    <td>{{eo.ename}}</td>
+                    <td>{{eo.empno}}</td>
+                    <td>{{eo.sal}}</td>
+                    <td>{{eo.job}}</td>
+                    <td>{{eo.hiredate}}</td>
+                    <td>{{eo.comm}}</td>
+                    <td>{{eo.mgr.ename}}</td>
+                    <td>{{eo.mgr.sal}}</td>
+                    <td>{{eo.deptno.dname}}</td>
+                    <td>{{eo.deptno.dloc}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </center>
+</body>
+</html>

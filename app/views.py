@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from app.models import *
+from django.db.models import Q
 
 # Create your views here.
 
@@ -41,7 +42,49 @@ def selfjoins(request):
     Emobj = Emp.objects.select_related('mgr').all()[6:10:]
     Emobj = Emp.objects.select_related('mgr').filter(hiredate__year=2023,sal__lt=2500)
     
-
-
     d = {'Emobj':Emobj}
     return render(request,'selfjoins.html',d)
+
+
+def emp_mgr_dept(request):
+
+    Emdobj = Emp.objects.select_related('deptno','mgr').all()
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(ename='Jones')
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(sal__gt=2500)
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(sal__lt=2500)
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(ename='Jones',mgr__ename='King')
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(deptno__dname='Research')
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(deptno__dloc='Boston')
+    Emdobj = Emp.objects.select_related('deptno','mgr').all()[:5:]
+    Emdobj = Emp.objects.select_related('deptno','mgr').all()[6:10:]
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(ename__startswith='J')
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__startswith='s') | Q(deptno__dname='Operations'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(hiredate__month__gt=1,hiredate__month__lt=3)
+    Emdobj = Emp.objects.select_related('deptno','mgr').all()
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(comm__isnull=True)
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(comm__isnull=False)
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(comm__gt=1400,deptno__dname='sales')
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__startswith='A') | Q(deptno__dname='Research'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__endswith='S') | Q(deptno__dname='Dallas'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(job='Manager')
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__startswith='s') | Q(deptno__dname='Operations'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__endswith='t') | Q(deptno__dname='Accounting'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__startswith='J') | Q(ename__endswith='T'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(deptno__in=(10,20))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(job__in=('Manager','president'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(ename__contains='e')
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__startswith='L') | Q(deptno__dname='Sales'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(mgr__isnull=True)
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(ename__startswith='k') | Q(deptno__dloc='Boston'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(Q(deptno__dname='Accounting') | Q(deptno__dname='Dallas'))
+    Emdobj = Emp.objects.select_related('deptno','mgr').all()[::-1]
+    Emdobj = Emp.objects.select_related('deptno','mgr').filter(deptno__dloc='New York')
+
+
+
+
+
+
+
+    d = {'Emdobj':Emdobj}
+    return render(request,'emp_mgr_dept.html',d)
