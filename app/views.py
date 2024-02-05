@@ -80,11 +80,33 @@ def emp_mgr_dept(request):
     Emdobj = Emp.objects.select_related('deptno','mgr').all()[::-1]
     Emdobj = Emp.objects.select_related('deptno','mgr').filter(deptno__dloc='New York')
 
-
-
-
-
-
-
     d = {'Emdobj':Emdobj}
     return render(request,'emp_mgr_dept.html',d)
+
+
+
+def emp_salgrade(request):
+    # retreving the data of Employee with they salgrade
+    EO = Emp.objects.all()
+    SO = SalGrade.objects.all()
+
+    # retreving only particular grade
+    SO = SalGrade.objects.filter(grade=3)
+    EO = Emp.objects.filter(sal__range=(SO[0].lowsal,SO[0].highsal))
+
+    #retriving the data of morethan 2 grades
+    SO = SalGrade.objects.filter(grade__in=(1,2,5,4))
+    EO = Emp.objects.none()
+    for sgo in SO:
+        EO = EO | Emp.objects.filter(sal__range=(sgo.lowsal,sgo.highsal))
+
+
+    d={'EO':EO,'SO':SO}
+    return render(request,'emp_salgrade.html',d)
+
+
+    
+
+
+
+
